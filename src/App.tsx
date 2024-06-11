@@ -13,12 +13,12 @@ const App: React.FC = () => (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="2" icon={<DashboardOutlined />}>
+          <Menu.Item key="2"  icon={<BarChartOutlined />}>
             <Link to="/monte-carlo-simulation/dashboard">Analise Gestão de Estoque</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<BarChartOutlined />}>
+          {/* <Menu.Item key="3" icon={<BarChartOutlined />}>
             <Link to="/monte-carlo-simulation/analise">Analise teste</Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
       <Layout className="site-layout">
