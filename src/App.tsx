@@ -2,8 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons';
-import HomePage from './pages/HomePage';
+import { BarChartOutlined } from '@ant-design/icons';
 import Dashboard from './pages/Dashboard';
 import Analise from './pages/Analise';
 const { Content, Sider } = Layout;
@@ -25,7 +24,7 @@ const App: React.FC = () => (
         <Content style={{ }}>
           <div className="site-layout-background" style={{ minHeight: 360 }}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="/monte-carlo-simulation/dashboard" element={<Dashboard />} />
               <Route path="/analise" element={<Analise />} />
             </Routes>
