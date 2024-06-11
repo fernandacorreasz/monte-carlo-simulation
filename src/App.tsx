@@ -21,10 +21,10 @@ const App: React.FC = () => (
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Content style={{ }}>
+        <Content style={{width: "80rem"  }}>
           <div className="site-layout-background" style={{ minHeight: 360 }}>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/monte-carlo-simulation" element={<Dashboard />} />
               <Route path="/monte-carlo-simulation/dashboard" element={<Dashboard />} />
               <Route path="/analise" element={<Analise />} />
             </Routes>
