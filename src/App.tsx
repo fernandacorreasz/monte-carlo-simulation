@@ -1,69 +1,39 @@
-import React, { useState } from 'react';
-import { Layout, Typography } from 'antd';
 
-import './App.css';
-import ParameterInput, { SimulationParams } from './component/SimulationForm/ParameterInput';
-import SimulationResults from './component/SimulationForm/SimulationResults';
-import SimulationCharts from './component/SimulationForm/SimulationCharts';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import { DashboardOutlined, BarChartOutlined } from '@ant-design/icons';
+import HomePage from './pages/HomePage';
+import Dashboard from './pages/Dashboard';
+import Analise from './pages/Analise';
+const { Content, Sider } = Layout;
 
-const { Header, Content } = Layout;
-const { Title } = Typography;
-
-interface SimulationResult {
-  day: number;
-  demand: number;
-  inventory: number;
-  orderPlaced: boolean;
-  totalCost: number;
-}
-
-const App: React.FC = () => {
-  const [results, setResults] = useState<SimulationResult[]>([]);
-
-  const simulate = (params: SimulationParams) => {
-    const simulationResults: SimulationResult[] = [];
-    let inventory = params.maxInventory;
-    let totalCost = 0;
-
-    for (let day = 1; day <= 30; day++) {
-      const demand = Math.max(0, Math.round(params.meanDemand + params.stdDemand * (Math.random() - 0.5)));
-      inventory -= demand;
-
-      let orderPlaced = false;
-      if (inventory <= params.reorderPoint) {
-        inventory += params.maxInventory - inventory;
-        totalCost += params.orderCost;
-        orderPlaced = true;
-      }
-
-      const holdingCost = inventory * params.holdingCost;
-      const shortageCost = inventory < 0 ? Math.abs(inventory) * params.shortageCost : 0;
-      totalCost += holdingCost + shortageCost;
-
-      simulationResults.push({
-        day,
-        demand,
-        inventory: Math.max(0, inventory),
-        orderPlaced,
-        totalCost,
-      });
-    }
-
-    setResults(simulationResults);
-  };
-
-  return (
-    <Layout style={{ borderRadius: '24px' }}>
-      <Header style={{ color: 'white' , height:'84px' }}>
-        <Title style={{ color: 'white' }}>Simulação de Gestão de Estoque</Title>
-      </Header>
-      <Content style={{ padding: '24px' }}>
-        <ParameterInput onSimulate={simulate} />
-        <SimulationResults results={results} />
-        <SimulationCharts results={results} />
-      </Content>
+const App: React.FC = () => (
+  <Router>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider collapsible>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu.Item key="2" icon={<DashboardOutlined />}>
+            <Link to="/monte-carlo-simulation/dashboard">Analise Gestão de Estoque</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<BarChartOutlined />}>
+            <Link to="/monte-carlo-simulation/analise">Analise teste</Link>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout className="site-layout">
+        <Content style={{ }}>
+          <div className="site-layout-background" style={{ minHeight: 360 }}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/monte-carlo-simulation/dashboard" element={<Dashboard />} />
+              <Route path="/analise" element={<Analise />} />
+            </Routes>
+          </div>
+        </Content>
+      </Layout>
     </Layout>
-  );
-};
+  </Router>
+);
 
 export default App;

@@ -43,7 +43,7 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({ results }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={results} rowKey="day" />;
+  return <Table columns={columns} dataSource={results} rowKey="day" style={{border: '1px solid #d4d4d4'}}/>;
 };
 
 export default SimulationResults;
