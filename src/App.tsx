@@ -5,6 +5,7 @@ import { Layout, Menu } from 'antd';
 import { BarChartOutlined } from '@ant-design/icons';
 import Dashboard from './pages/Dashboard';
 import Analise from './pages/Analise';
+import MaximizeSales from './component/SimulationForm/MaximizeSales';
 const { Content, Sider } = Layout;
 
 const App: React.FC = () => (
@@ -14,6 +15,10 @@ const App: React.FC = () => (
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="2"  icon={<BarChartOutlined />}>
             <Link to="/monte-carlo-simulation/dashboard">Analise Gestão de Estoque</Link>
+          </Menu.Item>
+
+          <Menu.Item key="3" icon={<BarChartOutlined />}>
+            <Link to="/monte-carlo-simulation/maximize-sales">Maximização de Vendas</Link>
           </Menu.Item>
           {/* <Menu.Item key="3" icon={<BarChartOutlined />}>
             <Link to="/monte-carlo-simulation/analise">Analise teste</Link>
@@ -27,6 +32,7 @@ const App: React.FC = () => (
               <Route path="/monte-carlo-simulation" element={<Dashboard />} />
               <Route path="/monte-carlo-simulation/dashboard" element={<Dashboard />} />
               <Route path="/analise" element={<Analise />} />
+              <Route path="/monte-carlo-simulation/maximize-sales" element={<MaximizeSales />} />
             </Routes>
           </div>
         </Content>
