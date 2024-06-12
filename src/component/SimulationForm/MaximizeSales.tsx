@@ -59,7 +59,7 @@ const MaximizeSales: React.FC = () => {
 
   return (
     <div style={{}}>
-      <Content style={{ padding: "24px", width: "65rem" }}>
+      <Content style={{ padding: "24px", width: "65rem", background:"rgb(245 245 245)"}}>
         <h2 style={{}}>Simulação de Monte Carlo - Maximização de Vendas</h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>

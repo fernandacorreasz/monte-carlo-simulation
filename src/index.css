@@ -57,12 +57,27 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: rgb(245 245 245);;
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgb(245 245 245);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .site-layout-background {
+    padding: 16px;
+  }
+
+  .ant-layout-header {
+    background: #001529;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }
