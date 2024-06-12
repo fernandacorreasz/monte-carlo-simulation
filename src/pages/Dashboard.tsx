@@ -6,6 +6,7 @@ import ParameterInput, {
 import SimulationResults from "../component/SimulationForm/SimulationResults";
 import SimulationCharts from "../component/SimulationForm/SimulationCharts";
 import { Card, Divider } from "antd";
+import { useMediaQuery } from "react-responsive";
 
 interface SimulationResult {
   day: number;
@@ -17,6 +18,7 @@ interface SimulationResult {
 
 const Dashboard: React.FC = () => {
   const [results, setResults] = useState<SimulationResult[]>([]);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const simulate = (params: SimulationParams) => {
     const simulationResults: SimulationResult[] = [];
@@ -56,7 +58,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div style={{}}>
-      <Content style={{ padding: "24px", width: "65rem", background:"rgb(245 245 245)" }}>
+      <Content style={{  padding: isMobile ? "16px" : "24px",
+          width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)" }}>
         <h2 style={{}}>Simulação de Monte Carlo - Gestão de Estoque</h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>

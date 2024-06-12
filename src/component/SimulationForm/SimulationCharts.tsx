@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import { useMediaQuery } from 'react-responsive';
 
 interface SimulationResult {
   day: number;
@@ -14,10 +15,12 @@ interface SimulationChartsProps {
 }
 
 const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   return (
     <div>
       <h2>Gráfico de Demanda Diária</h2>
-      <LineChart width={600} height={300} data={results}>
+      <LineChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 300} data={results}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="day" />
         <YAxis />
@@ -27,7 +30,7 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       </LineChart>
 
       <h2>Gráfico de Estoque Diário</h2>
-      <LineChart width={600} height={300} data={results}>
+      <LineChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 300} data={results}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="day" />
         <YAxis />
@@ -37,7 +40,7 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       </LineChart>
 
       <h2>Gráfico de Custo Total Diário</h2>
-      <BarChart width={600} height={300} data={results}>
+      <BarChart width={isMobile ? 300 : 600} height={isMobile ? 200 : 300} data={results}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="day" />
         <YAxis />

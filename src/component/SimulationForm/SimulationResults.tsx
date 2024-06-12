@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import styled from 'styled-components';
 
 interface SimulationResultsProps {
   results: SimulationResult[];
@@ -12,6 +13,19 @@ interface SimulationResult {
   orderPlaced: boolean;
   totalCost: number;
 }
+
+const StyledTable = styled(Table)`
+  @media (max-width: 768px) {
+    .ant-table-wrapper .ant-table-thead >tr>th {
+      padding: 10px 10px !important;
+    }
+  
+    .ant-table-cell {
+      padding: 10px 10px !important;
+    }
+      
+  }
+`;
 
 const SimulationResults: React.FC<SimulationResultsProps> = ({ results }) => {
   const columns = [
@@ -43,7 +57,7 @@ const SimulationResults: React.FC<SimulationResultsProps> = ({ results }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={results} rowKey="day" style={{border: '1px solid #d4d4d4'}}/>;
+  return <StyledTable columns={columns} dataSource={results} rowKey="day" style={{ border: '1px solid #d4d4d4' }} />;
 };
 
 export default SimulationResults;

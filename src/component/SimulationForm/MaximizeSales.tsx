@@ -4,6 +4,7 @@ import { Card, Divider } from "antd";
 import ParameterInput, { SimulationParams } from "./ParameterInput";
 import SimulationResults from "./SimulationResults";
 import SimulationCharts from "./SimulationCharts";
+import { useMediaQuery } from "react-responsive";
 
 interface SimulationResult {
   day: number;
@@ -16,6 +17,7 @@ interface SimulationResult {
 
 const MaximizeSales: React.FC = () => {
   const [results, setResults] = useState<SimulationResult[]>([]);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const simulate = (params: SimulationParams) => {
     const simulationResults: SimulationResult[] = [];
@@ -59,7 +61,7 @@ const MaximizeSales: React.FC = () => {
 
   return (
     <div style={{}}>
-      <Content style={{ padding: "24px", width: "65rem", background:"rgb(245 245 245)"}}>
+      <Content style={{  width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)"}}>
         <h2 style={{}}>Simulação de Monte Carlo - Maximização de Vendas</h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>
