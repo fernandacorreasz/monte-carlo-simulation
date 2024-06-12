@@ -61,7 +61,8 @@ const MaximizeSales: React.FC = () => {
 
   return (
     <div style={{}}>
-      <Content style={{  width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)"}}>
+      <Content style={{  padding: isMobile ? "16px" : "24px",
+          width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)" }}>
         <h2 style={{}}>Simulação de Monte Carlo - Maximização de Vendas</h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>
