@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
     <div style={{}}>
       <Content style={{  padding: isMobile ? "16px" : "24px",
           width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)" }}>
-        <h2 style={{}}>Simulação de Monte Carlo - Gestão de Estoque</h2>
+        <h2 style={{}}>Simulação de Monte Carlo Gestão de Estoque- Minimização de Custos </h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>
             O processo de simulação de gestão de estoque usando Monte Carlo e Pesquisa Operacional envolve os seguintes passos:
