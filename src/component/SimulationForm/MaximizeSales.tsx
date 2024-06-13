@@ -1,6 +1,6 @@
 import { Content } from "antd/es/layout/layout";
 import React, { useState } from "react";
-import { Card, Divider } from "antd";
+import { Card, Divider, Pagination } from "antd";
 import ParameterInput, { SimulationParams } from "./ParameterInput";
 import SimulationResults from "./SimulationResults";
 import SimulationCharts from "./SimulationCharts";
@@ -16,53 +16,62 @@ interface SimulationResult {
 }
 
 const MaximizeSales: React.FC = () => {
-  const [results, setResults] = useState<SimulationResult[]>([]);
+  const [allResults, setAllResults] = useState<SimulationResult[][]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const simulate = (params: SimulationParams) => {
-    const simulationResults: SimulationResult[] = [];
-    let inventory = params.maxInventory;
-    let totalCost = 0;
-    let totalSales = 0;
+    const simulations: SimulationResult[][] = [];
+    for (let sim = 0; sim < 100; sim++) {
+      const simulationResults: SimulationResult[] = [];
+      let inventory = params.maxInventory;
+      let totalCost = 0;
+      let totalSales = 0;
 
-    for (let day = 1; day <= 365; day++) {
-      const demand = Math.max(
-        0,
-        Math.round(params.meanDemand + params.stdDemand * (Math.random() - 0.5))
-      );
-      const sales = Math.min(demand, inventory);
-      inventory -= sales;
-      totalSales += sales;
+      for (let day = 1; day <= 365; day++) {
+        const demand = Math.max(
+          0,
+          Math.round(params.meanDemand + params.stdDemand * (Math.random() - 0.5))
+        );
+        const sales = Math.min(demand, inventory);
+        inventory -= sales;
+        totalSales += sales;
 
-      let orderPlaced = false;
-      if (inventory <= params.reorderPoint) {
-        inventory += params.maxInventory - inventory;
-        totalCost += params.orderCost;
-        orderPlaced = true;
+        let orderPlaced = false;
+        if (inventory <= params.reorderPoint) {
+          inventory += params.maxInventory - inventory;
+          totalCost += params.orderCost;
+          orderPlaced = true;
+        }
+
+        const holdingCost = inventory * params.holdingCost;
+        const shortageCost =
+          inventory < 0 ? Math.abs(inventory) * params.shortageCost : 0;
+        totalCost += holdingCost + shortageCost;
+
+        simulationResults.push({
+          day,
+          demand,
+          inventory: Math.max(0, inventory),
+          orderPlaced,
+          totalCost,
+          sales: totalSales,
+        });
       }
-
-      const holdingCost = inventory * params.holdingCost;
-      const shortageCost =
-        inventory < 0 ? Math.abs(inventory) * params.shortageCost : 0;
-      totalCost += holdingCost + shortageCost;
-
-      simulationResults.push({
-        day,
-        demand,
-        inventory: Math.max(0, inventory),
-        orderPlaced,
-        totalCost,
-        sales: totalSales,
-      });
+      simulations.push(simulationResults);
     }
-
-    setResults(simulationResults);
+    setAllResults(simulations);
   };
+
+  const resultsPerPage = 20;
+  const currentResults = allResults.slice(
+    (currentPage - 1) * resultsPerPage,
+    currentPage * resultsPerPage
+  );
 
   return (
     <div style={{}}>
-      <Content style={{  padding: isMobile ? "16px" : "24px",
-          width: isMobile ? "100%" : "65rem", background:"rgb(245 245 245)" }}>
+      <Content style={{ padding: isMobile ? "16px" : "24px", width: isMobile ? "100%" : "65rem", background: "rgb(245 245 245)" }}>
         <h2 style={{}}>Simulação de Monte Carlo - Maximização de Vendas</h2>
         <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
           <p>
@@ -75,11 +84,20 @@ const MaximizeSales: React.FC = () => {
         </Card>
 
         <Card title="Análise dos Resultados" bordered={false} style={{ marginBottom: "2%" }}>
-          <SimulationResults results={results} />
+          {currentResults.map((simulation, index) => (
+            <SimulationResults key={index} results={simulation} />
+          ))}
+  <Divider></Divider>
+<Pagination
+          current={currentPage}
+          total={allResults.length}
+          pageSize={resultsPerPage}
+          onChange={setCurrentPage}
+        />
         </Card>
-
+       
         <Card title="Análise Gráfica dos Resultados" bordered={false} style={{ marginBottom: "2%" }}>
-          <SimulationCharts results={results} />
+          <SimulationCharts results={currentResults.flat()} />
         </Card>
         <Card title="Cálculos Matemáticos" bordered={false} style={{ marginBottom: "2%" }}>
           <p>
