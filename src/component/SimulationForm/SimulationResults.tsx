@@ -16,14 +16,13 @@ interface SimulationResult {
 
 const StyledTable = styled(Table)`
   @media (max-width: 768px) {
-    .ant-table-wrapper .ant-table-thead >tr>th {
+    .ant-table-wrapper .ant-table-thead > tr > th {
       padding: 10px 10px !important;
     }
-  
+
     .ant-table-cell {
       padding: 10px 10px !important;
     }
-      
   }
 `;
 

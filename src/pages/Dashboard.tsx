@@ -1,12 +1,12 @@
-import { Content } from "antd/es/layout/layout";
-import React, { useState } from "react";
-import ParameterInput, {
-  SimulationParams,
-} from "../component/SimulationForm/ParameterInput";
-import SimulationResults from "../component/SimulationForm/SimulationResults";
-import SimulationCharts from "../component/SimulationForm/SimulationCharts";
-import { Card, Divider, Pagination } from "antd";
-import { useMediaQuery } from "react-responsive";
+import { Content } from 'antd/es/layout/layout';
+import React, { useState } from 'react';
+import ParameterInput, { SimulationParams } from '../component/SimulationForm/ParameterInput';
+import SimulationResults from '../component/SimulationForm/SimulationResults';
+import SimulationCharts from '../component/SimulationForm/SimulationCharts';
+import { Card, Divider, Pagination, Collapse } from 'antd';
+import { useMediaQuery } from 'react-responsive';
+
+const { Panel } = Collapse;
 
 interface SimulationResult {
   day: number;
@@ -67,47 +67,132 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <div style={{}}>
-      <Content style={{ padding: isMobile ? "16px" : "24px", width: isMobile ? "100%" : "65rem", background: "rgb(245 245 245)" }}>
-        <h2 style={{}}>Simulação de Monte Carlo Gestão de Estoque - Minimização de Custos</h2>
-        <Card title="Descrição" bordered={false} style={{ marginBottom: "2%" }}>
+    <div>
+      <Content
+        style={{
+          padding: isMobile ? '16px' : '24px',
+          width: isMobile ? '100%' : '65rem',
+          background: 'rgb(245 245 245)',
+        }}
+      >
+        <h2>Simulação de Monte Carlo Gestão de Estoque - Minimização de Custos</h2>
+        <Card title="Descrição" bordered={false} style={{ marginBottom: '2%' }}>
           <p>O processo de simulação de gestão de estoque usando Monte Carlo e Pesquisa Operacional envolve os seguintes passos:</p>
         </Card>
         <Divider></Divider>
-        <Card title="Coleta de Dados" bordered={false} style={{ marginBottom: "2%" }}>
+        <Card title="Coleta de Dados" bordered={false} style={{ marginBottom: '2%' }}>
           <ParameterInput onSimulate={simulate} />
         </Card>
-    
-        <Card title="Análise dos Resultados" bordered={false} style={{ marginBottom: "2%" }}>
-          {currentResults.map((simulation, index) => (
-            <SimulationResults key={index} results={simulation} />
-          ))}
-    <Divider></Divider>
-<Pagination
-          current={currentPage}
-          total={allResults.length}
-          pageSize={resultsPerPage}
-          onChange={setCurrentPage}
-        />
-        </Card>
-       
-        <Card title="Análise Gráfica dos Resultados" bordered={false} style={{ marginBottom: "2%" }}>
+
+        <Collapse style={{ marginBottom: '2%' }}>
+          <Panel header={`Análise dos Resultados (${allResults.length} simulações realizadas)`} key="1" style={{ background: '#fff' }}>
+            {currentResults.map((simulation, index) => (
+              <SimulationResults key={index} results={simulation} />
+            ))}
+            <Divider></Divider>
+            <Pagination
+              current={currentPage}
+              total={allResults.length}
+              pageSize={resultsPerPage}
+              onChange={setCurrentPage}
+            />
+          </Panel>
+        </Collapse>
+
+        <Card title="Análise Gráfica dos Resultados" bordered={false} style={{ marginBottom: '2%' }}>
           <SimulationCharts results={currentResults.flat()} />
         </Card>
-        <Card title="Cálculos Matemáticos" bordered={false} style={{ marginBottom: "2%" }}>
-          <p><b>Definição de Distribuições de Probabilidade</b><br />A Demanda Diária é modelada como uma variável aleatória seguindo uma distribuição normal com média e desvio padrão definidos pelos parâmetros do usuário.</p>
+        <Card title="Cálculos Matemáticos" bordered={false} style={{ marginBottom: '2%' }}>
+          <p>
+            <b>Definição de Distribuições de Probabilidade</b>
+            <br />
+            A Demanda Diária é modelada como uma variável aleatória seguindo uma distribuição normal com média e desvio padrão definidos pelos parâmetros do usuário.
+          </p>
           <Divider />
-          <p><b>Desenvolvimento do Modelo de Simulação</b><br />A simulação é executada por um período fixo (ex.: 30 dias).<br />Diariamente, a demanda é gerada aleatoriamente com base na distribuição normal.<br />O estoque é ajustado subtraindo a demanda diária.<br />Quando o estoque atinge o nível de reordem, um novo pedido é realizado para reabastecer o estoque.<br />Os custos de manutenção e ruptura são calculados diariamente.</p>
+          <p>
+            <b>Desenvolvimento do Modelo de Simulação</b>
+            <br />
+            A simulação é executada por um período fixo (ex.: 30 dias).
+            <br />
+            Diariamente, a demanda é gerada aleatoriamente com base na distribuição normal.
+            <br />
+            O estoque é ajustado subtraindo a demanda diária.
+            <br />
+            Quando o estoque atinge o nível de reordem, um novo pedido é realizado para reabastecer o estoque.
+            <br />
+            Os custos de manutenção e ruptura são calculados diariamente.
+          </p>
           <Divider />
-          <p><b>Execução das Simulações - Iteração Diária:</b> Para cada dia no período de simulação, realiza-se:<br />Geração da Demanda: Demanda diária é gerada aleatoriamente.<br />Ajuste de Estoque: Estoque é reduzido conforme a demanda.<br />Verificação de Reabastecimento: Se necessário, um pedido é realizado.<br />Cálculo de Custos: Custos de manutenção e ruptura são somados ao custo total.</p>
+          <p>
+            <b>Execução das Simulações - Iteração Diária:</b> Para cada dia no período de simulação, realiza-se:
+            <br />
+            Geração da Demanda: Demanda diária é gerada aleatoriamente.
+            <br />
+            Ajuste de Estoque: Estoque é reduzido conforme a demanda.
+            <br />
+            Verificação de Reabastecimento: Se necessário, um pedido é realizado.
+            <br />
+            Cálculo de Custos: Custos de manutenção e ruptura são somados ao custo total.
+          </p>
           <Divider />
-          <p><b>Cálculos Matemáticos:</b><br />1. <b>Demanda Diária (D):</b><br />A demanda diária é modelada como uma variável aleatória seguindo uma distribuição normal com média (μ) e desvio padrão (σ).<br /><i>D = μ + σ × Z</i><br />onde Z é um valor aleatório da distribuição normal padrão.</p>
+          <p>
+            <b>Cálculos Matemáticos:</b>
+            <br />
+            1. <b>Demanda Diária (D):</b>
+            <br />
+            A demanda diária é modelada como uma variável aleatória seguindo uma distribuição normal com média (μ) e desvio padrão (σ).
+            <br />
+            <i>D = μ + σ × Z</i>
+            <br />
+            onde Z é um valor aleatório da distribuição normal padrão.
+          </p>
           <Divider />
-          <p>2. <b>Nível de Estoque (I):</b><br />O nível de estoque é ajustado diariamente subtraindo a demanda diária.<br /><i>I<sub>t+1</sub> = I<sub>t</sub> - D<sub>t</sub></i></p>
+          <p>
+            2. <b>Nível de Estoque (I):</b>
+            <br />
+            O nível de estoque é ajustado diariamente subtraindo a demanda diária.
+            <br />
+            <i>I<sub>t+1</sub> = I<sub>t</sub> - D<sub>t</sub></i>
+          </p>
           <Divider />
-          <p>3. <b>Reabastecimento:</b><br />Quando o nível de estoque cai para ou abaixo do nível de reordem (R), um pedido é realizado para reabastecer o estoque até a capacidade máxima (Q<sub>max</sub>).<br /><i>Se I<sub>t+1</sub> ≤ R, então I<sub>t+1</sub> = Q<sub>max</sub> e C<sub>pedido</sub> = C<sub>p</sub></i><br />onde C<sub>p</sub> é o custo do pedido.</p>
+          <p>
+            3. <b>Reabastecimento:</b>
+            <br />
+            Quando o nível de estoque cai para ou abaixo do nível de reordem (R), um pedido é realizado para reabastecer o estoque até a capacidade máxima (Q<sub>max</sub>).
+            <br />
+            <i>
+              Se I<sub>t+1</sub> ≤ R, então I<sub>t+1</sub> = Q<sub>max</sub> e C<sub>pedido</sub> = C<sub>p</sub>
+            </i>
+            <br />
+            onde C<sub>p</sub> é o custo do pedido.
+          </p>
           <Divider />
-          <p>4. <b>Cálculo dos Custos:</b><br />- <b>Custo de Manutenção (Holding Cost):</b> Calculado com base no nível de estoque.<br /><i>C<sub>manutenção</sub> = I<sub>t</sub> × C<sub>m</sub></i><br />onde C<sub>m</sub> é o custo de manutenção por unidade por dia.<br /><br />- <b>Custo de Ruptura (Shortage Cost):</b> Ocorre quando a demanda excede o estoque disponível.<br /><i>C<sub>ruptura</sub> = max(0, D<sub>t</sub> - I<sub>t</sub>) × C<sub>r</sub></i><br />onde C<sub>r</sub> é o custo de ruptura por unidade não atendida.<br /><br />- <b>Custo Total Diário (C<sub>total</sub>):</b> É a soma dos custos de pedido, manutenção e ruptura.<br /><i>C<sub>total</sub> = C<sub>pedido</sub> + C<sub>manutenção</sub> + C<sub>ruptura</sub></i><br /><br />- <b>Custo Total Acumulado:</b> Ao longo do período de simulação é a soma dos custos totais diários.<br /><i>C<sub>total acumulado</sub> = ∑<sub>t=1</sub><sup>30</sup> C<sub>total</sub></i></p>
+          <p>
+            4. <b>Cálculo dos Custos:</b>
+            <br />
+            - <b>Custo de Manutenção (Holding Cost):</b> Calculado com base no nível de estoque.
+            <br />
+            <i>C<sub>manutenção</sub> = I<sub>t</sub> × C<sub>m</sub></i>
+            <br />
+            onde C<sub>m</sub> é o custo de manutenção por unidade por dia.
+            <br />
+            <br />
+            - <b>Custo de Ruptura (Shortage Cost):</b> Ocorre quando a demanda excede o estoque disponível.
+            <br />
+            <i>C<sub>ruptura</sub> = max(0, D<sub>t</sub> - I<sub>t</sub>) × C<sub>r</sub></i>
+            <br />
+            onde C<sub>r</sub> é o custo de ruptura por unidade não atendida.
+            <br />
+            <br />
+            - <b>Custo Total Diário (C<sub>total</sub>):</b> É a soma dos custos de pedido, manutenção e ruptura.
+            <br />
+            <i>C<sub>total</sub> = C<sub>pedido</sub> + C<sub>manutenção</sub> + C<sub>ruptura</sub></i>
+            <br />
+            <br />
+            - <b>Custo Total Acumulado:</b> Ao longo do período de simulação é a soma dos custos totais diários.
+            <br />
+            <i>C<sub>total acumulado</sub> = ∑<sub>t=1</sub><sup>30</sup> C<sub>total</sub></i>
+          </p>
         </Card>
       </Content>
     </div>
