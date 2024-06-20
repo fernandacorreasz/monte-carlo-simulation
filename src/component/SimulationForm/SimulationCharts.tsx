@@ -91,7 +91,9 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       <ResponsiveContainer width="100%" height={600}>
         <BarChart data={filteredResults} style={{ margin: '0 auto' }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" allowDataOverflow={true} />
+          <XAxis dataKey="day" allowDataOverflow={true}>
+            <Label value="Dia" offset={-5} position="insideBottom" />
+          </XAxis>
           <YAxis>
             <Label value={label} angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
           </YAxis>
@@ -121,8 +123,12 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
         <BarChart data={results} style={{ margin: '0 auto' }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" allowDataOverflow={true} />
-          <YAxis />
+          <XAxis dataKey="day" allowDataOverflow={true}>
+            <Label value="Dia" offset={-5} position="insideBottom" />
+          </XAxis>
+          <YAxis>
+            <Label value="Demanda" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+          </YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="demand" fill="#8884d8" />
@@ -136,8 +142,12 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
         <BarChart data={results} style={{ margin: '0 auto' }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" allowDataOverflow={true} />
-          <YAxis />
+          <XAxis dataKey="day" allowDataOverflow={true}>
+            <Label value="Dia" offset={-5} position="insideBottom" />
+          </XAxis>
+          <YAxis>
+            <Label value="Estoque" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+          </YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="inventory" fill="#82ca9d" />
@@ -151,8 +161,12 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
         <BarChart data={results} style={{ margin: '0 auto' }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" allowDataOverflow={true} />
-          <YAxis />
+          <XAxis dataKey="day" allowDataOverflow={true}>
+            <Label value="Dia" offset={-5} position="insideBottom" />
+          </XAxis>
+          <YAxis>
+            <Label value="Custo Total" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+          </YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="totalCost" fill="#8884d8" />
@@ -166,8 +180,12 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
       <ResponsiveContainer width="100%" height={isMobile ? 200 : 300}>
         <BarChart data={results} style={{ margin: '0 auto' }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" allowDataOverflow={true} />
-          <YAxis />
+          <XAxis dataKey="day" allowDataOverflow={true}>
+            <Label value="Dia" offset={-5} position="insideBottom" />
+          </XAxis>
+          <YAxis>
+            <Label value="Vendas Acumuladas" angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }} />
+          </YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="sales" fill="#ff7300" />
@@ -212,7 +230,7 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <Modal visible={visible} footer={null} onCancel={closeModal} width={1000} centered>
+      <Modal visible={visible} footer={null} onCancel={closeModal} width={1500} centered>
         {modalContent}
       </Modal>
     </div>
