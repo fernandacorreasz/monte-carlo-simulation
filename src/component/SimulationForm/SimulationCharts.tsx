@@ -211,7 +211,7 @@ const SimulationCharts: React.FC<SimulationChartsProps> = ({ results }) => {
         </BarChart>
       </ResponsiveContainer>
 
-      <h2>Probabilidade de Ruptura de Estoque</h2>
+      <h2>Probabilidade de Ruptura de Estoque de</h2>
       <Button onClick={() => openModal(renderBarChart('inventory', '#82ca9d', 'Probabilidade', confidenceIntervalInventory, frequencyInventory))}>
         Expandir
       </Button>
